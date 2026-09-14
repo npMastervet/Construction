@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" role="img" aria-label="Fail">
+  <!-- Result timing: warning mark completes at 1.5s, holds to 2s; ripple keeps looping. -->
+  <g id="ripple">
+    <animate attributeName="opacity" dur="2s" repeatCount="indefinite" calcMode="spline"
+      values="1;1;0;0" keyTimes="0;0.5;0.9;1"
+      keySplines="0 0 1 1;0.912 0.073 0.626 0.729;0 0 1 1"/>
+    <g transform="translate(256 257.86)">
+      <g>
+        <animateTransform attributeName="transform" type="scale" dur="2s" repeatCount="indefinite" calcMode="spline" fill="freeze"
+          values="1.5 1.5;1.5 1.5;2.1 2.1;2.1 2.1"
+          keyTimes="0;0.15;0.85;1"
+          keySplines="0 0 1 1;0.167 0 0.833 1;0 0 1 1"/>
+        <ellipse cx="0" cy="-3" rx="118" ry="118" fill="var(--act-danger-soft, #fecaca)" stroke="var(--act-card, #ffffff)" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+  <g id="circle">
+    <g transform="translate(256 257.86)">
+      <g>
+        <animateTransform attributeName="transform" type="scale" dur="0.7s" calcMode="spline" fill="freeze"
+          values="0 0;0 0;1.5 1.5;1.5 1.5"
+          keyTimes="0;0.15;0.75;1"
+          keySplines="0 0 1 1;0.656 0.872 0 0.98;0 0 1 1"/>
+        <ellipse cx="0" cy="-3" rx="118" ry="118" fill="var(--act-danger-fill, #ef4444)"/>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(256 256)">
+    <path fill="var(--act-check-stroke, #ffffff)" d="M0 -58 L50 42 H-50 Z" opacity="0">
+      <animate attributeName="opacity" dur="1.5s" fill="freeze"
+        values="0;0;1;1" keyTimes="0;0.45;0.6;1"/>
+    </path>
+    <path fill="none" stroke="var(--act-check-stroke, #ffffff)" stroke-width="24" stroke-linecap="round"
+      pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" d="M0 -18 V8">
+      <animate attributeName="stroke-dashoffset" dur="1.5s" fill="freeze"
+        values="100;100;0;0" keyTimes="0;0.5;0.8;1"/>
+    </path>
+    <circle fill="var(--act-check-stroke, #ffffff)" r="10" cy="32" opacity="0">
+      <animate attributeName="opacity" dur="1.5s" fill="freeze"
+        values="0;0;1;1" keyTimes="0;0.65;0.75;1"/>
+    </circle>
+  </g>
+</svg>

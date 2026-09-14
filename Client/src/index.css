@@ -1,0 +1,616 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-ring: 240 5.9% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --success: 141.1 71.4% 48.2%;
+    --warning: 36 100% 50%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --sidebar-background: 240 10% 4%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 240 5.9% 10%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 240 4.9% 83.9%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    /* à¹€à¸«à¸™à¸·à¸­à¸žà¸·à¹‰à¸™à¸«à¸¥à¸±à¸‡à¹€à¸¥à¹‡à¸à¸™à¹‰à¸­à¸¢ â€” dropdown/select à¹„à¸¡à¹ˆà¸à¸¥à¸·à¸™à¸à¸±à¸šà¹€à¸žà¸ˆ */
+    --popover: 240 6% 13%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --success: 141.1 71.4% 48.2%;
+    --warning: 36 100% 50%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  /* Slightly larger base reading size on phones for a native-app feel.
+     Only affects text without an explicit Tailwind text-* class. */
+  @media (max-width: 767px) {
+    body {
+      font-size: 1rem; /* 16px */
+      line-height: 1.5;
+    }
+  }
+}
+
+/* â”€â”€â”€ Custom scrollbar â€” thin, rounded, theme-aware â”€â”€â”€ */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+
+/* Respect reduced-motion for class-based (tailwindcss-animate) transitions too.
+   framer-motion is already covered by <MotionConfig reducedMotion="user">. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  .animate-out {
+    animation: none !important;
+  }
+}
+
+@layer utilities {
+  /* iOS/Android safe-area insets (notch + home indicator). Requires
+     viewport-fit=cover in index.html. Used by the mobile bottom nav,
+     sticky header, and any sticky bottom action bar. */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  /* total height of the mobile bottom nav (bar + bottom inset) — used to
+     reserve scroll clearance so content is never hidden behind the bar. */
+  .h-bottom-nav {
+    height: calc(4rem + env(safe-area-inset-bottom));
+  }
+  .pb-bottom-nav {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+
+  /* shadcn/ui specific utilities */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Status indicator styles */
+  .status-success {
+    @apply bg-success text-white px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-destructive {
+    @apply bg-destructive text-white px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-warning {
+    @apply bg-warning text-white px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  /* Dialog and Modal styles */
+  .dialog-overlay {
+    @apply fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0;
+  }
+
+  .dialog-content {
+    @apply fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg;
+  }
+
+  /*
+   * Dialog motion="fade" (expense-control view/edit modals)
+   * Desktop (md+): opacity fade-in only — no slide/zoom (tailwind responsive data-state anim is unreliable)
+   * Mobile (max-md): slide up/down via Tailwind classes on DialogContent
+   */
+  @media (min-width: 768px) {
+    .dialog-motion-fade {
+      --tw-enter-translate-x: 0 !important;
+      --tw-enter-translate-y: 0 !important;
+      --tw-exit-translate-x: 0 !important;
+      --tw-exit-translate-y: 0 !important;
+      --tw-enter-scale: 1 !important;
+      --tw-exit-scale: 1 !important;
+      animation: none;
+    }
+
+    .dialog-motion-fade[data-state="open"] {
+      animation: dialog-motion-fade-in 300ms ease-out both;
+    }
+  }
+
+  @keyframes dialog-motion-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Select styles */
+  .select-trigger {
+    @apply flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .select-content {
+    @apply relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2;
+  }
+
+  .select-item {
+    @apply relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50;
+  }
+
+  /* Button styles */
+  .button-primary {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2;
+  }
+
+  .button-secondary {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2;
+  }
+
+  /* Input styles */
+  .input-base {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Card styles */
+  .card-base {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+  }
+
+  .card-header {
+    @apply flex flex-col space-y-1.5 p-6;
+  }
+
+  .card-content {
+    @apply p-6 pt-0;
+  }
+
+  .card-footer {
+    @apply flex items-center p-6 pt-0;
+  }
+}
+
+/* Animations */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.animate-enter {
+  animation: enter 160ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.animate-exit {
+  animation: exit 150ms ease-in forwards;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  html {
+    font-family: 'Mali', sans-serif;
+  }
+}
+
+@layer utilities {
+  .writing-vertical {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+  }
+
+  /* iOS App Store style card effects */
+  .card-shadow {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  /* Enhanced iOS App Store style animations */
+  .ios-card {
+    transform-origin: center center;
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+                opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+                box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform, opacity, box-shadow;
+    transform: translateZ(0); /* Force GPU acceleration */
+  }
+
+  .ios-card-active {
+    transition-duration: 0.4s;
+  }
+
+  /* Prevent animation glitches */
+  .ios-card * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Smooth hover transitions */
+  .group-item {
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .group-item:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Prevent text flicker during animations */
+  .font-medium,
+  .text-sm {
+    transform: translateZ(0);
+  }
+
+  /* Remove any conflicting animations */
+  @media (prefers-reduced-motion: reduce) {
+    .ios-card,
+    .ios-card-active,
+    .group-item {
+      transition: none;
+    }
+  }
+
+  .border-theme-base {
+    @apply border-border;
+  }
+  
+  .border-theme-light {
+    border-color: hsl(var(--border-light));
+  }
+  
+  .border-theme-dark {
+    border-color: hsl(var(--border-dark));
+  }
+}
+
+/* Spring animations */
+@keyframes spring-up {
+  0% {
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes spring-down {
+  0% {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(5px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Smooth scale animation */
+@keyframes smooth-scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Theme switch radial reveal defaults */
+:root {
+  --theme-switch-x: 50vw;
+  --theme-switch-y: 50vh;
+  --theme-switch-radius: 150vmax;
+  --theme-switch-duration: 360ms;
+}
+
+@keyframes radial-reveal-in {
+  from {
+    clip-path: circle(0px at var(--theme-switch-x) var(--theme-switch-y));
+    opacity: 0.92;
+  }
+  to {
+    clip-path: circle(var(--theme-switch-radius) at var(--theme-switch-x) var(--theme-switch-y));
+    opacity: 1;
+  }
+}
+
+@keyframes radial-reveal-out {
+  from {
+    clip-path: circle(var(--theme-switch-radius) at var(--theme-switch-x) var(--theme-switch-y));
+    opacity: 1;
+  }
+  to {
+    clip-path: circle(0px at var(--theme-switch-x) var(--theme-switch-y));
+    opacity: 0.92;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  transform-origin: var(--theme-switch-x) var(--theme-switch-y);
+}
+
+::view-transition-old(root) {
+  animation: var(--theme-switch-duration) cubic-bezier(0.32, 0.72, 0, 1) both radial-reveal-out;
+}
+
+::view-transition-new(root) {
+  animation: var(--theme-switch-duration) cubic-bezier(0.16, 1, 0.3, 1) both radial-reveal-in;
+}
+
+/* Prevent flash of unstyled content during theme switch */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+/* Ensure dark mode content shows up with proper colors */
+.dark::view-transition-old(root) {
+  z-index: 2147483646;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+/* For light mode */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2147483646;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    clip-path: none;
+  }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+
+
+
+
+
+
+
+
+/* Guided Tour highlight — z-41 lifts element above the z-40 overlay for spotlight effect */
+@keyframes tour-highlight-pulse {
+  /* Smooth pulse: 0% = 100% (ring เล็ก, visible) → 50% (ring ขยาย, จาง) → กลับมาเหมือนเดิม
+     ไม่มี snap-back เพราะ start และ end frame เท่ากัน */
+  0%, 100% {
+    box-shadow:
+      0 0 0 5px hsl(var(--card)),
+      0 0 0 5px hsl(var(--primary) / 0.8),
+      0 8px 32px rgba(0, 0, 0, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 0 5px hsl(var(--card)),
+      0 0 0 18px hsl(var(--primary) / 0.15),
+      0 8px 32px rgba(0, 0, 0, 0.35);
+  }
+}
+
+[data-tour-highlight] {
+  position: relative;
+  z-index: 105;
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 6px;
+  border-radius: 8px;
+  animation: tour-highlight-pulse 2.4s ease-in-out infinite;
+}
+
+/* พื้นทึบสำหรับ spotlight — ยกเว้นแถว/เซลล์ตาราง และ target ที่ต้องคงสีพื้นเดิม (เช่น tint over-cap) */
+[data-tour-highlight]:not(tr, td, th, [data-tour-keep-bg]) {
+  background-color: hsl(var(--card));
+}
+
+[data-tour-highlight]:not(tr, td, th) svg {
+  color: hsl(var(--primary));
+}
+
+/* แถว/เซลล์ตาราง — ring แบบ inset อยู่ในกรอบ scroll container คงสีพื้นแถวเดิม ไม่ใช้ pulse
+   (box-shadow สี card ของ pulse จะดูเพี้ยนในตาราง) */
+tr[data-tour-highlight],
+td[data-tour-highlight],
+th[data-tour-highlight] {
+  outline-offset: -2px;
+  border-radius: 6px;
+  animation: none;
+}
+
+/* target พื้นโปร่งแสง (tr/td/keep-bg) ต้องยก card ที่ครอบขึ้นเหนือ overlay ทั้งใบ
+   ไม่งั้นสีพื้นแบบ /50 จะ composite ทับ overlay ดำจนเพี้ยน */
+.bg-card:has(tr[data-tour-highlight]),
+.bg-card:has(td[data-tour-highlight]),
+.bg-card:has(th[data-tour-highlight]),
+.bg-card:has([data-tour-keep-bg][data-tour-highlight]) {
+  position: relative;
+  z-index: 104;
+}
+
+[data-tour-highlight]:is(button) {
+  background-color: transparent;
+}
+
+/* Portal pin — ลอยเหนือ tour overlay (z-100); มีไอคอนใน pin ไม่พึ่ง DOM ในตาราง */
+[data-tour-highlight][data-tour-pin] {
+  position: fixed;
+  z-index: 105;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(var(--card));
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 4px;
+  border-radius: 8px;
+  animation: tour-highlight-pulse 2.4s ease-in-out infinite;
+}
+
+/* Radix Dialog (fixed) — keep centered positioning; lift above tour overlay (z-100)
+   ปิด pulse animation สำหรับ dialog เพราะ dialog เด่นด้วยตัวเองอยู่แล้ว — pulse ทำให้ user มองว่ากระพริบ */
+[data-tour-highlight][data-tour-dialog] {
+  position: fixed;
+  z-index: 105;
+  animation: none;
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 4px;
+  box-shadow:
+    0 0 0 4px hsl(var(--card)),
+    0 0 0 6px hsl(var(--primary) / 0.5),
+    0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* อย่าให้ overflow ตัด outline ของ tour highlight
+   ยกเว้น tr/td/th — ใช้ ring แบบ inset อยู่แล้ว และการปลด overflow จะทำตาราง min-w ทะลัก layout */
+.overflow-hidden:has([data-tour-highlight]:not(tr, td, th)),
+.overflow-x-auto:has([data-tour-highlight]:not(tr, td, th)),
+.overflow-auto:has([data-tour-highlight]:not(tr, td, th)) {
+  overflow: visible;
+}
+
+[data-tour-highlight] .overflow-hidden,
+[data-tour-highlight] .overflow-x-auto,
+[data-tour-highlight] .overflow-auto {
+  overflow: visible;
+}
+
+

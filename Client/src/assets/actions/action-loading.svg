@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" role="img" aria-label="Loading">
+  <!-- Loading loops continuously: the core stays visible while ripple and spinner animate. -->
+  <g id="ripple">
+    <animate attributeName="opacity" dur="1.8s" repeatCount="indefinite" calcMode="spline"
+      values="0.75;0.75;0;0" keyTimes="0;0.35;0.9;1"
+      keySplines="0 0 1 1;0.912 0.073 0.626 0.729;0 0 1 1"/>
+    <g transform="translate(256 257.86)">
+      <g>
+        <animateTransform attributeName="transform" type="scale" dur="1.8s" repeatCount="indefinite" calcMode="spline" fill="freeze"
+          values="1.5 1.5;1.5 1.5;2.1 2.1;2.1 2.1"
+          keyTimes="0;0.1;0.85;1"
+          keySplines="0 0 1 1;0.167 0 0.833 1;0 0 1 1"/>
+        <ellipse cx="0" cy="-3" rx="118" ry="118" fill="var(--act-work-soft, #c8f1e0)" stroke="var(--act-card, #ffffff)" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+  <g id="circle">
+    <g transform="translate(256 257.86)">
+      <g>
+        <animateTransform attributeName="transform" type="scale" dur="0.55s" calcMode="spline" fill="freeze"
+          values="0 0;1.5 1.5;1.5 1.5"
+          keyTimes="0;0.75;1"
+          keySplines="0.656 0.872 0 0.98;0 0 1 1"/>
+        <ellipse cx="0" cy="-3" rx="118" ry="118" fill="var(--act-work-fill, #2cda94)"/>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(256 256)">
+    <g>
+      <animateTransform attributeName="transform" type="rotate" dur="0.85s" repeatCount="indefinite"
+        from="0 0 0" to="360 0 0"/>
+      <circle r="52" fill="none" stroke="var(--act-icon-stroke, #ffffff)" stroke-width="14"
+        stroke-linecap="round" stroke-dasharray="90 240"/>
+    </g>
+  </g>
+</svg>

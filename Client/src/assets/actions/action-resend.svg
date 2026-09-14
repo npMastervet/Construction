@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" role="img" aria-label="Resend">
+  <!-- Loading/action loop: core stays visible while ripple and refresh motion continue. -->
+  <g id="ripple">
+    <animate attributeName="opacity" dur="1.8s" repeatCount="indefinite" calcMode="spline"
+      values="0.75;0.75;0;0" keyTimes="0;0.35;0.9;1"
+      keySplines="0 0 1 1;0.912 0.073 0.626 0.729;0 0 1 1"/>
+    <g transform="translate(256 257.86)">
+      <g>
+        <animateTransform attributeName="transform" type="scale" dur="1.8s" repeatCount="indefinite" calcMode="spline" fill="freeze"
+          values="1.5 1.5;1.5 1.5;2.1 2.1;2.1 2.1"
+          keyTimes="0;0.1;0.85;1"
+          keySplines="0 0 1 1;0.167 0 0.833 1;0 0 1 1"/>
+        <ellipse cx="0" cy="-3" rx="118" ry="118" fill="var(--act-work-soft, #c8f1e0)" stroke="var(--act-card, #ffffff)" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+  <g id="circle">
+    <g transform="translate(256 257.86)">
+      <g>
+        <animateTransform attributeName="transform" type="scale" dur="0.55s" calcMode="spline" fill="freeze"
+          values="0 0;1.5 1.5;1.5 1.5"
+          keyTimes="0;0.75;1"
+          keySplines="0.656 0.872 0 0.98;0 0 1 1"/>
+        <ellipse cx="0" cy="-3" rx="118" ry="118" fill="var(--act-work-fill, #2cda94)"/>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(256 256)">
+    <g>
+      <animateTransform attributeName="transform" type="translate" dur="1.4s" repeatCount="indefinite"
+        values="0 0;7 -5;0 0" keyTimes="0;0.5;1"/>
+      <g opacity="0">
+        <animate attributeName="opacity" dur="0.75s" fill="freeze"
+          values="0;0;1" keyTimes="0;0.35;1"/>
+        <path fill="var(--act-icon-stroke, #ffffff)"
+          d="M-82 8 L82 -62 L28 74 L-4 22 L-58 58 Z"/>
+        <path fill="var(--act-work-fill, #2cda94)" opacity="0.18"
+          d="M-4 22 L28 74 L14 18 Z"/>
+        <path fill="none" stroke="var(--act-work-fill, #2cda94)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"
+          d="M-4 22 L82 -62"/>
+      </g>
+      <path fill="none" stroke="var(--act-icon-stroke, #ffffff)" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"
+        pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"
+        d="M-82 8 L82 -62 L28 74 L-4 22 L-58 58 Z">
+        <animate attributeName="stroke-dashoffset" dur="1s" fill="freeze"
+          values="100;100;0" keyTimes="0;0.35;1"/>
+      </path>
+    </g>
+    <g transform="translate(-66 56)">
+      <circle cx="18" cy="18" r="34" fill="var(--act-work-fill, #2cda94)" stroke="var(--act-icon-stroke, #ffffff)" stroke-width="6"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" dur="1.1s" repeatCount="indefinite"
+          from="0 18 18" to="360 18 18"/>
+        <path fill="none" stroke="var(--act-icon-stroke, #ffffff)" stroke-width="7" stroke-linecap="round"
+          d="M32 18 A14 14 0 1 1 18 4"/>
+        <path fill="var(--act-icon-stroke, #ffffff)" d="M15 -4 L18 4 L26 4 Z"/>
+      </g>
+    </g>
+  </g>
+</svg>
