@@ -1,0 +1,17 @@
+{
+  "name": "construction-cost-manager",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22.12 <23", "npm": ">=10" },
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "install:all": "npm ci --prefix Client && npm ci --prefix Server",
+    "dev:client": "npm run dev --prefix Client",
+    "dev:server": "npm run dev --prefix Server",
+    "build": "npm run build --prefix Client && npm run build --prefix Server",
+    "typecheck": "npm run typecheck --prefix Client && npm run typecheck --prefix Server",
+    "lint": "npm run lint --prefix Client && npm run lint --prefix Server",
+    "test": "npm test --prefix Server",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build"
+  }
+}

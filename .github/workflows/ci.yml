@@ -1,0 +1,24 @@
+name: Foundation checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: mysql://test:test@127.0.0.1:3306/construction_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: |
+            Client/package-lock.json
+            Server/package-lock.json
+      - run: npm run install:all
+      - run: npm run prisma:generate --prefix Server
+      - run: npm run prisma:validate --prefix Server
+      - run: npm run check

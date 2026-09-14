@@ -1,0 +1,16 @@
+# Local credentials; examples are safe to track.
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.Example
+**/node_modules/
+**/dist/
+**/build/
+**/coverage/
+**/*.tsbuildinfo
+**/*.log
+.local/
+.artifacts/
+.agents/
+.claude/
+# Prisma migrations MUST remain version controlled.
