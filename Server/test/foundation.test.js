@@ -8,7 +8,7 @@ const testEnvironment = {
   NODE_ENV: "test",
   DATABASE_URL: "mysql://test:test@127.0.0.1:3306/construction_test",
   JWT_SECRET: "construction-test-only-secret-not-for-production",
-  ALLOWED_ORIGINS: "http://localhost:5174",
+  ALLOWED_ORIGINS: "http://localhost:5173",
   GOOGLE_CLIENT_ID: "",
   GOOGLE_CLIENT_SECRET: "",
 };
@@ -64,8 +64,8 @@ test("readiness reports database availability separately from process health", a
 });
 
 test("CORS allow-list, unknown paths and malformed JSON return controlled errors", async () => {
-  const allowed = await fetch(`${baseUrl}/health`, { headers: { Origin: "http://localhost:5174" } });
-  assert.equal(allowed.headers.get("access-control-allow-origin"), "http://localhost:5174");
+  const allowed = await fetch(`${baseUrl}/health`, { headers: { Origin: "http://localhost:5173" } });
+  assert.equal(allowed.headers.get("access-control-allow-origin"), "http://localhost:5173");
   assert.equal((await fetch(`${baseUrl}/health`, { headers: { Origin: "https://untrusted.invalid" } })).status, 403);
   const missing = await fetch(`${baseUrl}/api/not-a-route`);
   assert.equal(missing.status, 404);

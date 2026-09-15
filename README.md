@@ -16,7 +16,7 @@
 6. เพิ่มผู้ใช้คนแรกในฐานข้อมูลตามรายละเอียดด้านล่าง
 7. เปิดสอง terminal: `npm run dev:server` และ `npm run dev:client`
 
-Frontend: http://localhost:5174 — ใช้ /api ผ่าน Vite proxy ไป localhost:5001
+Frontend: http://localhost:5173 — ใช้ /api ผ่าน Vite proxy ไป localhost:5001
 
 API: /health ตรวจ process; /ready ตรวจ DB reachability (ไม่รับรองว่า migration/Google พร้อม)
 
