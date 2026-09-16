@@ -2,7 +2,7 @@
 
 ฐานระบบบริหารต้นทุนงานก่อสร้าง สร้างจาก BaseReactAuth พร้อม React/Vite, Express/Prisma และ TypeScript สำหรับโค้ดใหม่
 
-ขณะนี้มี Login, Session และโครงหน้าจอ โมดูลโครงการ/BOQ/ค่าใช้จ่ายยังไม่เปิดใช้งาน ดู [สถานะฐานระบบ](docs/foundation-status.md) และ [แบบแผนระบบ](SYSTEM_REBUILD_BLUEPRINT.md)
+ขณะนี้มี Login, Session และโมดูลองค์กร/สมาชิก/โครงการ/สัญญา/ผู้ขาย พร้อมสิทธิ์และ audit ส่วน BOQ/ค่าใช้จ่ายยังรอระยะถัดไป ดู [สถานะล่าสุด](docs/phase-2-status.md) และ [แบบแผนระบบ](SYSTEM_REBUILD_BLUEPRINT.md)
 
 ## เริ่มต้นบนเครื่องพัฒนา
 
@@ -22,11 +22,15 @@ API: /health ตรวจ process; /ready ตรวจ DB reachability (ไม�
 
 หากยังไม่มี MySQL/Google credentials จะดูหน้า Login และตรวจ build/test ได้ แต่ยังยืนยัน Login จริงไม่ได้ Google route ตอบ 503 เมื่อไม่ได้ตั้งค่า credentials ไม่มีโหมดข้าม Login
 
-## ผู้ดูแลคนแรก (ชั่วคราวก่อนมีหน้าจัดการผู้ใช้)
+## เจ้าของกิจการคนแรก
 
-เมื่อใช้ migration แล้ว เปิด `npm run prisma:studio --prefix Server` และสร้าง User โดยใส่อีเมล Google ตัวพิมพ์เล็ก, displayName, role=SUPERADMIN, status=ACTIVE, authProvider=GOOGLE และ company ตาม enum ของฐานเดิม ค่า company ยังเป็น placeholder ไม่มีผลแยกข้อมูลตามองค์กร
+เมื่อใช้ migration แล้ว สร้างกิจการและ OWNER ด้วยคำสั่งต่อไปนี้ โดยแทนค่าตัวอย่างด้วยข้อมูลที่ต้องการ:
 
-อย่าใส่ข้อมูลโครงการจริงจนกว่าจะมีโมเดลองค์กรและสิทธิ์ตามแบบแผน
+```powershell
+npm run bootstrap:organization --prefix Server -- --code MY-COMPANY --name "ชื่อกิจการ" --email "owner@example.com" --display-name "ชื่อเจ้าของ"
+```
+
+จากนั้นเจ้าของเข้าผ่าน Google และเพิ่มสมาชิกในหน้ากิจการได้ `SUPERADMIN` เดิมไม่ให้สิทธิ์ธุรกิจ ดู [คู่มือเริ่มใช้งานและฐานทดสอบ](docs/phase-2-setup.md)
 
 ## คำสั่งตรวจและ build
 
@@ -42,7 +46,7 @@ Client/src มี TS/TSX ใหม่อยู่ร่วมกับ JS/JSX �
 - Client/src/core: auth และ session
 - Client/src/workspace: หน้าหลักและ shell
 - Client/src/shared: UI/hooks/config ที่ใช้ร่วมกัน
-- Client/src/modules: พื้นที่โมดูลธุรกิจที่จะเพิ่ม
+- Client/src/modules/construction: หน้าจอกิจการและโครงการ
 - Server/src/index.ts: ตรวจ environment และเริ่ม server
 - Server/src/app.ts: ประกอบ Express app, core routes, health/readiness และ errors
 - Server/src/modules/index.ts: ลงทะเบียน business routers
@@ -52,6 +56,6 @@ Client/src มี TS/TSX ใหม่อยู่ร่วมกับ JS/JSX �
 
 ## ขอบเขตปัจจุบัน
 
-Session ยังใช้ localStorage และ OAuth hash ตาม BaseReactAuth โดยเปลี่ยนชื่อ storage key สำหรับ Construction แล้ว การย้าย refresh token ไป HttpOnly cookie, OAuth state binding, สิทธิ์องค์กร/โครงการ และ full auth integration เป็นงานถัดไปก่อนเปิด production
+Session ยังใช้ localStorage และ OAuth hash ตาม BaseReactAuth โดยเปลี่ยนชื่อ storage key สำหรับ Construction แล้ว การย้าย refresh token ไป HttpOnly cookie, OAuth state binding และ full Google auth integration เป็นงานถัดไปก่อนเปิด production
 
 ยังไม่ได้เลือก hosting, สร้าง MySQL จริง, ผูก Google account หรือ deploy ระบบ CI เป็น workflow ใน repository ที่จะทำงานเมื่อ push ไป GitHub

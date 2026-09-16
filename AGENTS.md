@@ -4,10 +4,10 @@
 
 Derived from BaseReactAuth commit 366e065904b531528cd6ab0a44bb1fa237868e69.
 Read SYSTEM_REBUILD_BLUEPRINT.md for the target, and docs/foundation-status.md for actual implementation.
-Current milestone: foundation only, auth + shell + TypeScript tooling, no business modules yet.
+Current milestone: organization/project foundation implemented; see docs/phase-2-status.md for tested scope and runtime prerequisites.
 Core must never import business modules. Keep Client/src/components/ui in place.
 All new application logic uses TypeScript; inherited JS may remain with checkJs disabled.
-Do not claim organization/project authorization exists: legacy roles/company enums are temporary.
+Organization/project authorization uses active memberships from the database. Legacy roles/company enums are temporary and never grant business access.
 
 ## Commands
 

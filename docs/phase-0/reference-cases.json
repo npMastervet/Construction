@@ -1,0 +1,92 @@
+{
+  "kind": "synthetic-design-reference",
+  "asOfDate": "2026-09-14",
+  "currency": "THB",
+  "projects": [
+    {
+      "id": "demo-project-a",
+      "name": "ปรับปรุงอาคารตัวอย่าง A",
+      "contractNet": "100000.00",
+      "boqItems": [
+        { "quantity": "100.0000", "unitPrice": "400.0000", "expectedAmount": "40000.00" },
+        { "quantity": "1.0000", "unitPrice": "20000.0000", "expectedAmount": "20000.00" }
+      ],
+      "expectedBaseline": "60000.00",
+      "costs": [
+        {
+          "id": "a-materials", "status": "POSTED", "documentDate": "2026-09-01", "dueDate": "2026-09-10",
+          "category": "MATERIALS", "mode": "VAT_EXCLUDED", "rate": "0.070000",
+          "items": [{ "quantity": "10.0000", "unitPrice": "1000.0000" }],
+          "payments": [{ "amount": "5350.00", "status": "POSTED", "paidDate": "2026-09-05" }],
+          "expected": { "net": "10000.00", "vat": "700.00", "gross": "10700.00", "paid": "5350.00", "outstanding": "5350.00", "paymentStatus": "PARTIALLY_PAID", "overdue": true }
+        },
+        {
+          "id": "a-labor", "status": "POSTED", "documentDate": "2026-09-02", "dueDate": null,
+          "category": "LABOR", "mode": "NON_VAT", "rate": "0.000000",
+          "items": [{ "quantity": "5.0000", "unitPrice": "1000.0000" }],
+          "payments": [{ "amount": "5000.00", "status": "POSTED", "paidDate": "2026-09-02" }],
+          "expected": { "net": "5000.00", "vat": "0.00", "gross": "5000.00", "paid": "5000.00", "outstanding": "0.00", "paymentStatus": "PAID", "overdue": false }
+        },
+        {
+          "id": "a-transport", "status": "POSTED", "documentDate": "2026-09-03", "dueDate": "2026-09-20",
+          "category": "TRANSPORTATION", "mode": "VAT_INCLUDED", "rate": "0.070000",
+          "items": [{ "quantity": "1.0000", "unitPrice": "1070.0000" }], "payments": [],
+          "expected": { "net": "1000.00", "vat": "70.00", "gross": "1070.00", "paid": "0.00", "outstanding": "1070.00", "paymentStatus": "UNPAID", "overdue": false }
+        },
+        {
+          "id": "a-draft", "status": "DRAFT", "documentDate": "2026-09-04", "dueDate": null,
+          "category": "OTHER", "mode": "NON_VAT", "rate": "0.000000",
+          "items": [{ "quantity": "1.0000", "unitPrice": "9999.0000" }], "payments": [],
+          "expected": { "net": "9999.00", "vat": "0.00", "gross": "9999.00", "paid": "0.00", "outstanding": "9999.00", "paymentStatus": "UNPAID", "overdue": false }
+        }
+      ],
+      "expected": { "net": "16000.00", "vat": "770.00", "gross": "16770.00", "paid": "10350.00", "outstanding": "6420.00", "baselineRemaining": "44000.00", "contractLessActual": "84000.00" }
+    },
+    {
+      "id": "demo-project-b", "name": "ปรับปรุงพื้นที่ตัวอย่าง B", "contractNet": "150000.00",
+      "boqItems": [
+        { "quantity": "1.0000", "unitPrice": "60000.0000", "expectedAmount": "60000.00" },
+        { "quantity": "10.0000", "unitPrice": "3000.0000", "expectedAmount": "30000.00" }
+      ],
+      "expectedBaseline": "90000.00",
+      "costs": [
+        {
+          "id": "b-rounding", "status": "POSTED", "documentDate": "2026-09-01", "dueDate": "2026-09-10",
+          "category": "MATERIALS", "mode": "VAT_EXCLUDED", "rate": "0.070000",
+          "items": [{ "quantity": "3.0000", "unitPrice": "333.3350" }],
+          "payments": [{ "amount": "1070.01", "status": "POSTED", "paidDate": "2026-09-02" }],
+          "expected": { "net": "1000.01", "vat": "70.00", "gross": "1070.01", "paid": "1070.01", "outstanding": "0.00", "paymentStatus": "PAID", "overdue": false }
+        },
+        {
+          "id": "b-subcontract", "status": "POSTED", "documentDate": "2026-09-02", "dueDate": "2026-09-10",
+          "category": "SUBCONTRACTOR", "mode": "VAT_INCLUDED", "rate": "0.070000",
+          "items": [{ "quantity": "2.0000", "unitPrice": "10700.0000" }],
+          "payments": [
+            { "amount": "10000.00", "status": "POSTED", "paidDate": "2026-09-03" },
+            { "amount": "11400.00", "status": "POSTED", "paidDate": "2026-09-06" }
+          ],
+          "expected": { "net": "20000.00", "vat": "1400.00", "gross": "21400.00", "paid": "21400.00", "outstanding": "0.00", "paymentStatus": "PAID", "overdue": false }
+        },
+        {
+          "id": "b-machinery", "status": "POSTED", "documentDate": "2026-09-03", "dueDate": "2026-09-14",
+          "category": "MACHINERY", "mode": "NON_VAT", "rate": "0.000000",
+          "items": [{ "quantity": "1.0000", "unitPrice": "2500.0000" }],
+          "payments": [{ "amount": "1000.00", "status": "REVERSED", "paidDate": "2026-09-04" }],
+          "expected": { "net": "2500.00", "vat": "0.00", "gross": "2500.00", "paid": "0.00", "outstanding": "2500.00", "paymentStatus": "UNPAID", "overdue": false }
+        },
+        {
+          "id": "b-void", "status": "VOID", "documentDate": "2026-09-04", "dueDate": null,
+          "category": "OTHER", "mode": "NON_VAT", "rate": "0.000000",
+          "items": [{ "quantity": "1.0000", "unitPrice": "2000.0000" }], "payments": [],
+          "expected": { "net": "2000.00", "vat": "0.00", "gross": "2000.00", "paid": "0.00", "outstanding": "2000.00", "paymentStatus": "UNPAID", "overdue": false }
+        }
+      ],
+      "expected": { "net": "23500.01", "vat": "1470.00", "gross": "24970.01", "paid": "22470.01", "outstanding": "2500.00", "baselineRemaining": "66499.99", "contractLessActual": "126499.99" }
+    }
+  ],
+  "pricing": { "cost": "60000.00", "rate": "0.200000", "markupPrice": "72000.00", "marginPrice": "75000.00" },
+  "allocation": {
+    "mode": "VAT_INCLUDED", "rate": "0.070000", "enteredAmounts": ["1.00", "1.00", "1.00"],
+    "expectedNet": ["0.94", "0.93", "0.93"], "expectedVat": ["0.06", "0.07", "0.07"]
+  }
+}

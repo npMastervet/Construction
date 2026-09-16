@@ -11,6 +11,7 @@ import {
 import { ROUTES } from "@/routes/constants/routePaths";
 import { Home } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
+import { constructionBreadcrumbs } from "@/workspace/constructionBreadcrumbs";
 
 /**
  * @typedef {{ to: string | null; label: string }} BreadcrumbCrumb
@@ -73,6 +74,8 @@ function fallbackCrumbs(pathname) {
  */
 function resolveCrumbs(pathname) {
   const norm = normalizePathname(pathname);
+  const construction = constructionBreadcrumbs(norm);
+  if (construction) return construction;
 
   for (const def of ROUTE_MATCHERS) {
     const m = matchPath({ path: def.path, end: true, caseSensitive: false }, norm);

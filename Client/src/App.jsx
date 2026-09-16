@@ -23,6 +23,9 @@ const queryClient = new QueryClient({
 function AuthBootstrap() {
   const fetchProfile = useAuthStore((s) => s.fetchProfile);
   const lastVisibleFetchRef = useRef(0);
+  useEffect(() => useAuthStore.subscribe((state, previous) => {
+    if (state.user?.id !== previous.user?.id) queryClient.clear();
+  }), []);
 
   // โหลด profile เมื่อ app เริ่ม — hasSession คืน true แม้ access token หมดอายุ
   // fetchProfile จะ silentRefresh อัตโนมัติถ้า access token expired

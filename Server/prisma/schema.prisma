@@ -48,8 +48,8 @@ enum LoginAttemptStatus {
 }
 
 model User {
-  id          String    @id @default(cuid())
-  email       String    @unique
+  id          String  @id @default(cuid())
+  email       String  @unique
   displayName String?
   nickName    String?
   position    String?
@@ -73,8 +73,167 @@ model User {
 
   refreshTokens RefreshToken[]
   loginAttempts LoginAttempt[]
+  memberships   OrganizationMember[]
+  auditEvents   AuditLog[]
 
   @@map("user")
+}
+
+enum OrganizationRole {
+  OWNER
+  ACCOUNTANT
+  MEMBER
+}
+
+enum MembershipStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum ProjectRole {
+  MANAGER
+  RECORDER
+  VIEWER
+}
+
+enum ProjectStatus {
+  DRAFT
+  QUOTATION
+  APPROVED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum SupplierStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+model Organization {
+  id             String               @id @default(cuid())
+  code           String               @unique @db.VarChar(40)
+  name           String               @db.VarChar(200)
+  status         MembershipStatus     @default(ACTIVE)
+  currency       String               @default("THB") @db.VarChar(3)
+  timezone       String               @default("Asia/Bangkok") @db.VarChar(50)
+  defaultVatRate Decimal              @default(0) @db.Decimal(7, 6)
+  version        Int                  @default(1)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  members        OrganizationMember[]
+  projects       Project[]
+  suppliers      Supplier[]
+  audits         AuditLog[]
+
+  @@map("organization")
+}
+
+model OrganizationMember {
+  id             String           @id @default(cuid())
+  organizationId String
+  userId         String
+  role           OrganizationRole @default(MEMBER)
+  status         MembershipStatus @default(ACTIVE)
+  version        Int              @default(1)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user           User             @relation(fields: [userId], references: [id], onDelete: Restrict)
+  projects       ProjectMember[]
+
+  @@unique([organizationId, userId])
+  @@unique([organizationId, id])
+  @@map("organization_member")
+}
+
+model Project {
+  id              String          @id @default(cuid())
+  organizationId  String
+  code            String          @db.VarChar(40)
+  name            String          @db.VarChar(200)
+  clientName      String          @db.VarChar(200)
+  clientContact   String?         @db.VarChar(500)
+  location        String?         @db.VarChar(1000)
+  startDate       DateTime?       @db.Date
+  endDate         DateTime?       @db.Date
+  status          ProjectStatus   @default(DRAFT)
+  contractNet     Decimal?        @db.Decimal(18, 2)
+  contractVatRate Decimal?        @db.Decimal(7, 6)
+  contractVat     Decimal?        @db.Decimal(18, 2)
+  contractGross   Decimal?        @db.Decimal(18, 2)
+  createdByUserId String
+  version         Int             @default(1)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  members         ProjectMember[]
+  audits          AuditLog[]
+
+  @@unique([organizationId, code])
+  @@unique([organizationId, id])
+  @@index([organizationId, status, updatedAt])
+  @@map("project")
+}
+
+model ProjectMember {
+  id                   String             @id @default(cuid())
+  organizationId       String
+  projectId            String
+  organizationMemberId String
+  role                 ProjectRole
+  canReadCosts         Boolean            @default(false)
+  status               MembershipStatus   @default(ACTIVE)
+  version              Int                @default(1)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  project              Project            @relation(fields: [organizationId, projectId], references: [organizationId, id], onDelete: Restrict)
+  member               OrganizationMember @relation(fields: [organizationId, organizationMemberId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([projectId, organizationMemberId])
+  @@index([organizationId, organizationMemberId, status])
+  @@map("project_member")
+}
+
+model Supplier {
+  id              String         @id @default(cuid())
+  organizationId  String
+  name            String         @db.VarChar(200)
+  taxId           String?        @db.VarChar(13)
+  contactName     String?        @db.VarChar(200)
+  telephone       String?        @db.VarChar(50)
+  email           String?        @db.VarChar(254)
+  address         String?        @db.VarChar(2000)
+  status          SupplierStatus @default(ACTIVE)
+  createdByUserId String
+  version         Int            @default(1)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  organization    Organization   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@unique([organizationId, id])
+  @@index([organizationId, status, name])
+  @@map("supplier")
+}
+
+model AuditLog {
+  id             String       @id @default(cuid())
+  organizationId String
+  projectId      String?
+  actorUserId    String
+  action         String       @db.VarChar(80)
+  entityType     String       @db.VarChar(40)
+  entityId       String
+  changes        Json
+  occurredAt     DateTime     @default(now())
+  requestId      String       @db.VarChar(80)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  project        Project?     @relation(fields: [organizationId, projectId], references: [organizationId, id], onDelete: Restrict)
+  actor          User         @relation(fields: [actorUserId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId, occurredAt])
+  @@index([organizationId, projectId, occurredAt])
+  @@map("audit_log")
 }
 
 model RefreshToken {

@@ -3,7 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import type { RuntimeEnvironment } from "./config/environment";
-import { moduleRouters } from "./modules";
+import { createModuleRouters } from "./modules";
 
 export interface AppDependencies {
   probeDatabase?: () => Promise<void>;
@@ -33,7 +33,7 @@ export function createApp(environment: RuntimeEnvironment, dependencies: AppDepe
   app.use(express.json({ limit: "2mb" }));
   app.use(passport.initialize());
   app.use("/api", globalLimiter);
-  for (const router of [...coreRouters, ...moduleRouters]) app.use("/api", router);
+  for (const router of [...coreRouters, ...createModuleRouters()]) app.use("/api", router);
 
   app.get("/health", (_req, res) => {
     res.json({ success: true, data: { service: "construction-api", status: "up" } });

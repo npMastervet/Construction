@@ -1,4 +1,4 @@
-import type { Router } from "express";
+import { createModuleRouter } from "./routes";
 
 /** Business modules register here; core never imports business modules. */
-export const moduleRouters: Router[] = [];
+export const createModuleRouters = () => [createModuleRouter()];

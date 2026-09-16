@@ -23,6 +23,7 @@ function redirectToLogin() {
   window.location.replace(`${ROUTES.AUTH.LOGIN}?returnTo=${returnTo}`);
 }
 
+/** @param {string} path @param {RequestInit} options */
 export async function authFetch(path, options = {}) {
   const token = getStoredAccessToken();
   const headers = {

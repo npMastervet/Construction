@@ -1,10 +1,12 @@
+import { lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LayoutExternal from "@/layouts/LayoutExternal";
 import Layout from "@/layouts/Layout";
 import { ROUTES } from "./constants/routePaths";
 
 import LoginPage from "@/core/auth/pages/LoginPage";
-import MainPage from "@/workspace/pages/MainPage";
+const MainPage = lazy(() => import("@/modules/construction/WorkspacePage"));
+const ProjectPage = lazy(() => import("@/modules/construction/ProjectPage"));
 import RequireAuth from "@/core/auth/routes/RequireAuth";
 
 /**
@@ -34,6 +36,8 @@ export default function AppRoutes() {
       <Route element={<RequireAuth />}>
         <Route element={<Layout />}>
           <Route path={ROUTES.MAIN} element={<MainPage />} />
+          <Route path={ROUTES.CONSTRUCTION.ORGANIZATION_PARAM} element={<MainPage />} />
+          <Route path={ROUTES.CONSTRUCTION.PROJECT_PARAM} element={<ProjectPage />} />
         </Route>
       </Route>
 

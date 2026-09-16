@@ -14,6 +14,12 @@
  */
 export const ROUTES = {
   MAIN: "/",
+  CONSTRUCTION: {
+    ORGANIZATION: (orgId) => `/organizations/${encodeURIComponent(orgId)}`,
+    ORGANIZATION_PARAM: "/organizations/:orgId",
+    PROJECT: (orgId, projectId) => `/organizations/${encodeURIComponent(orgId)}/projects/${encodeURIComponent(projectId)}`,
+    PROJECT_PARAM: "/organizations/:orgId/projects/:projectId",
+  },
   AUTH: {
     LOGIN: "/login",
   },
